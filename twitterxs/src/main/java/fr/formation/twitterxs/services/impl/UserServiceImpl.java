@@ -33,7 +33,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void create(UserCreateDto dto) {
-	Region region = regionJpaRepo.findById(dto.getRegionId()).get();
+	// getOne returns only id-populated entity
+	Region region = regionJpaRepo.getOne(dto.getRegionId());
 	User user = EntityHelper.asUser(dto, region);
 	String pwd = user.getSecurity().getPassword();
 	String encoded = encoder.encode(pwd);

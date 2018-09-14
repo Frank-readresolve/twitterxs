@@ -6,6 +6,7 @@ server:
     whitelabel: 
       enabled: false
 
+# expose all actuator endpoints
 management:
   endpoints:
     web:

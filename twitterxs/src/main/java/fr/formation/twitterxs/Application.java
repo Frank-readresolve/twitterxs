@@ -50,7 +50,7 @@ public class Application extends SpringBootServletInitializer {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 	    // CSRF disabled to ease tests with Postman
-	    http.csrf().disable().anonymous().disable().authorizeRequests()
+	    http.csrf().disable().authorizeRequests()
 		    .antMatchers("/login", "/security/authError",
 			    "/security/login", "/security/logout",
 			    "/users/create")

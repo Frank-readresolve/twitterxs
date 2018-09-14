@@ -68,7 +68,6 @@ public class TweetServiceImpl implements TweetService {
 	Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize());
 	Page<TweetDto> page = tweetJpaRepo.findByUsername(dto.getUsername(),
 		pageable);
-	// Hand-made DTO
 	return new SearchResultDto<>(page.getContent(),
 		page.getTotalElements());
     }
