@@ -2,17 +2,20 @@ package fr.formation.twitterxs.dto;
 
 import java.time.LocalDate;
 
+import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import fr.formation.twitterxs.errors.*;
 
 /**
- * A DTO that represents useful data and validation rules in order to create a
- * user.
+ * A composed DTO that represents useful data and validation rules in order to
+ * create a user.
  */
 public class UserCreateDto implements Dto {
 
-    private static final long serialVersionUID = -1646395640156122791L;
+    private static final long serialVersionUID = 1273071586018268596L;
 
     @NotBlank(message = "{E_NOT_BLANK}")
     @Size(max = 100, message = "{E_MAX_LENGTH_EXCEEDED}")
@@ -28,21 +31,16 @@ public class UserCreateDto implements Dto {
     @UniqueEmail
     private String email;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @NotNull(message = "{E_NOT_NULL}")
     @Adult
     private LocalDate birthDate;
 
-    @NotBlank(message = "{E_NOT_BLANK}")
-    @Size(max = 50, message = "{E_MAX_LENGTH_EXCEEDED}")
-    @UniqueUsername
-    private String username;
-
-    @NotBlank(message = "{E_NOT_BLANK}")
-    @Size(max = 10, message = "{E_MAX_LENGTH_EXCEEDED}")
-    private String password;
-
     @NotNull(message = "{E_NOT_NULL}")
     private Long regionId;
+
+    @Valid // Cascade validation
+    private UserSecurityCreateDto security;
 
     public UserCreateDto() {
 	// Default no-arg constructor
@@ -80,28 +78,20 @@ public class UserCreateDto implements Dto {
 	this.birthDate = birthDate;
     }
 
-    public String getUsername() {
-	return username;
-    }
-
-    public void setUsername(String username) {
-	this.username = username;
-    }
-
-    public String getPassword() {
-	return password;
-    }
-
-    public void setPassword(String password) {
-	this.password = password;
-    }
-
     public Long getRegionId() {
 	return regionId;
     }
 
     public void setRegionId(Long id) {
 	regionId = id;
+    }
+
+    public UserSecurityCreateDto getSecurity() {
+	return security;
+    }
+
+    public void setSecurity(UserSecurityCreateDto security) {
+	this.security = security;
     }
 
     /**
@@ -111,9 +101,8 @@ public class UserCreateDto implements Dto {
      */
     @Override
     public String toString() {
-	// Keep password secret!
 	return "{lastname=" + lastname + ", firstname=" + firstname + ", email="
-		+ email + ", birthDate=" + birthDate + ", username=" + username
+		+ email + ", birthDate=" + birthDate + ", security=" + security
 		+ "regionId=" + regionId + "}";
     }
 }

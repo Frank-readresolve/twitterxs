@@ -31,5 +31,9 @@ public interface UserJpaRepository extends JpaRepository<User, Long> {
 	    @Param("pwd") String pwd);
 
     @Nullable // Indicates that return can be null
+    // select u from User u where u.security.username = :username
     public User findBySecurityUsername(String username);
+
+    @Query("select u.security.password from User u where u.security.username = :username")
+    public String findPasswordByUsername(@Param("username") String username);
 }

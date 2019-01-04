@@ -4,7 +4,7 @@ import javax.validation.constraints.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import fr.formation.twitterxs.errors.Passwords;
+import fr.formation.twitterxs.errors.*;
 
 /**
  * A DTO that represents useful data and validation rules in order to update the
@@ -20,11 +20,12 @@ public class UserUpdatePasswordDto implements Dto {
 
     @NotBlank(message = "{E_NOT_BLANK}")
     @Size(max = 10, message = "{E_MAX_LENGTH_EXCEEDED}")
-    private String previousPassword;
+    @CurrentPassword
+    private String currentPassword;
 
     @NotBlank(message = "{E_NOT_BLANK}")
     @Size(max = 10, message = "{E_MAX_LENGTH_EXCEEDED}")
-    private String password;
+    private String newPassword;
 
     public UserUpdatePasswordDto() {
 	// Default no-arg constructor
@@ -38,25 +39,19 @@ public class UserUpdatePasswordDto implements Dto {
 	this.userId = userId;
     }
 
-    public String getPreviousPassword() {
-	return previousPassword;
+    public String getCurrentPassword() {
+	return currentPassword;
     }
 
-    public void setPreviousPassword(String previousPassword) {
-	this.previousPassword = previousPassword;
+    public void setCurrentPassword(String previousPassword) {
+	currentPassword = previousPassword;
     }
 
-    public String getPassword() {
-	return password;
+    public String getNewPassword() {
+	return newPassword;
     }
 
-    public void setPassword(String password) {
-	this.password = password;
-    }
-
-    @Override
-    public String toString() {
-	// Keep passwords secret!
-	return "{userId=" + userId + "}";
+    public void setNewPassword(String password) {
+	newPassword = password;
     }
 }

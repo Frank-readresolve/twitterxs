@@ -29,19 +29,19 @@ public class UserSecurity implements Serializable {
 
     @Convert(converter = BooleanConverter.class)
     @Column(length = 1, nullable = false)
-    public boolean accountNonExpired = true;
+    private boolean accountNonExpired = true;
 
     @Convert(converter = BooleanConverter.class)
     @Column(length = 1, nullable = false)
-    public boolean accountNonLocked = true;
+    private boolean accountNonLocked = true;
 
     @Convert(converter = BooleanConverter.class)
     @Column(length = 1, nullable = false)
-    public boolean credentialsNonExpired = true;
+    private boolean credentialsNonExpired = true;
 
     @Convert(converter = BooleanConverter.class)
     @Column(length = 1, nullable = false)
-    public boolean enabled = true;
+    private boolean enabled = true;
 
     /**
      * Creates a new {@code UserSecurity} with default values.

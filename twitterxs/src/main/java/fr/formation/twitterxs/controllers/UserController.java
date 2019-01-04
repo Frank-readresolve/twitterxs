@@ -2,10 +2,10 @@ package fr.formation.twitterxs.controllers;
 
 import javax.validation.Valid;
 
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import fr.formation.twitterxs.dto.*;
+import fr.formation.twitterxs.security.AnyRole;
 import fr.formation.twitterxs.services.UserService;
 
 /**
@@ -13,7 +13,6 @@ import fr.formation.twitterxs.services.UserService;
  */
 @RestController
 @RequestMapping("/users")
-@Secured("ROLE_USER")
 public class UserController extends BaseController {
 
     private final UserService userService;
@@ -30,6 +29,7 @@ public class UserController extends BaseController {
      *            the inputs related to a user to create
      */
     @PostMapping("/create")
+    // No security, anybody can create an account (see SecurityConfig)
     protected void create(@Valid @RequestBody UserCreateDto dto) {
 	userService.create(dto);
     }
@@ -40,6 +40,7 @@ public class UserController extends BaseController {
      * @return the identity of an authenticated user
      */
     @GetMapping("/identity")
+    @AnyRole
     protected UserIdentityDto identity() {
 	Long userId = getUserId();
 	return userService.identity(userId);
@@ -51,6 +52,7 @@ public class UserController extends BaseController {
      * @return the profile of an authenticated user
      */
     @GetMapping("/profile")
+    @AnyRole
     protected UserProfileDto profile() {
 	Long userId = getUserId();
 	return userService.profile(userId);
@@ -62,10 +64,11 @@ public class UserController extends BaseController {
      * @param dto
      *            the inputs related to a password to update
      */
-    @PatchMapping("/update/password")
+    @PostMapping("/update/password")
+    @AnyRole
     protected void
 	    updatePassword(@Valid @RequestBody UserUpdatePasswordDto dto) {
-	Long userId = getUserId();
+	Long userId = getUserId(); // Enforce self-update
 	dto.setUserId(userId);
 	userService.updatePassword(dto);
     }

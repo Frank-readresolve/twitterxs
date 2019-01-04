@@ -2,6 +2,7 @@ package fr.formation.twitterxs.services;
 
 import java.util.List;
 
+import fr.formation.twitterxs.domain.entities.Region;
 import fr.formation.twitterxs.dto.*;
 
 /**
@@ -28,4 +29,8 @@ public interface RegionService {
      * @return a view of all the regions
      */
     public List<ValueLabelDto> findAll();
+
+    public Long save(Region region);
+
+    public List<Region> list();
 }

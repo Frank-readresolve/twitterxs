@@ -25,10 +25,25 @@ public interface UserService {
      */
     public void delete(Long id);
 
+    /**
+     * Retrieves the identity of the user with given id.
+     *
+     * @param id
+     *            the id of the user to retrieve identity for
+     */
     public UserIdentityDto identity(Long id);
 
+    /**
+     * Retrieves the profile of the user with given id.
+     *
+     * @param id
+     *            the id of the user to retrieve profile for
+     */
     public UserProfileDto profile(Long id);
 
+    /**
+     * Retrieves the global statistics on users ans tweets.
+     */
     public GlobalStatsDto stats();
 
     /**
@@ -57,4 +72,17 @@ public interface UserService {
      *            the DTO to update the password with
      */
     public void updatePassword(@Valid UserUpdatePasswordDto dto);
+
+    /**
+     * Indicates whether or not given {@code password} matches current password
+     * for given {@code username}.
+     *
+     * @param username
+     *            the username to test against
+     * @param password
+     *            the password to test against
+     * @return {@code true} if {@code password} matches current password;
+     *         {@code false} otherwise
+     */
+    public boolean matchesCurrentPassword(String username, String password);
 }

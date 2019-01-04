@@ -11,6 +11,8 @@ import javax.validation.*;
  * <p>
  * <b>A {@code null} value is considered as valid</b>. Other validation should
  * be used to check against {@code null}.
+ *
+ * @see AdultValidator
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

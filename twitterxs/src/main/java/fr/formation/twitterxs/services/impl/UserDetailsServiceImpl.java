@@ -17,6 +17,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	this.userJpaRepo = userJpaRepo;
     }
 
+    // Principal is-a UserDetails => covariant return
     @Override
     public Principal loadUserByUsername(String username)
 	    throws UsernameNotFoundException {

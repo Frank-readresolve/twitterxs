@@ -1,7 +1,11 @@
 package fr.formation.twitterxs.services.impl;
 
+import java.time.LocalDateTime;
+
 import javax.validation.Valid;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +16,9 @@ import fr.formation.twitterxs.services.*;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired // Inject at field scope
+    private ModelMapper mapper; // Defined in configuration (@Bean)
 
     private final PasswordEncoder encoder;
 
@@ -33,12 +40,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void create(UserCreateDto dto) {
-	// getOne returns only id-populated entity
+	// Entity populated with ModelMapper example:
+	User user = mapper.map(dto, User.class);
+	// getOne returns only id-populated entity:
 	Region region = regionJpaRepo.getOne(dto.getRegionId());
-	User user = EntityHelper.asUser(dto, region);
+	user.setRegion(region);
+	// Set default subscription date
+	user.setSubscriptionDate(LocalDateTime.now());
+	// Encode password:
 	String pwd = user.getSecurity().getPassword();
 	String encoded = encoder.encode(pwd);
 	user.getSecurity().setPassword(encoded);
+	// Save the newly created entity:
 	userJpaRepo.save(user); // Do not return saved entity
     }
 
@@ -63,6 +76,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public GlobalStatsDto stats() {
 	StatsDto tweetStats = tweetService.stats();
+	// long users = userJpaRepo.count();
 	long users = userJpaRepo.countBySecurityEnabledTrue();
 	return DtoHelper.asGlobalStatsDto(tweetStats, users);
     }
@@ -84,7 +98,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updatePassword(@Valid UserUpdatePasswordDto dto) {
-	String encoded = encoder.encode(dto.getPassword());
+	String encoded = encoder.encode(dto.getNewPassword());
 	userJpaRepo.updatePassword(dto.getUserId(), encoded);
+    }
+
+    @Override
+    public boolean matchesCurrentPassword(String username, String password) {
+	String current = userJpaRepo.findPasswordByUsername(username);
+	// Current password is encoded
+	return encoder.matches(password, current);
     }
 }

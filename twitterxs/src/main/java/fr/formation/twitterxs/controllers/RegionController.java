@@ -21,7 +21,7 @@ public class RegionController extends BaseController {
 
     private final RegionService service;
 
-    // @Autowired is optional with one constructor
+    // @Autowired // is optional with one constructor
     protected RegionController(RegionService service) {
 	this.service = service;
     }

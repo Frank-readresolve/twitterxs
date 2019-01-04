@@ -212,7 +212,7 @@ public class User implements BusinessEntity {
      * <p>
      * Enumeration order is not meaningful.
      */
-    public static enum Role {
+    public enum Role {
 	/** The ROLE_USER role. */
 	ROLE_USER("USER"),
 	/** The ROLE_ADMIN role. */

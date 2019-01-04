@@ -26,7 +26,7 @@ public class SecurityController extends BaseController {
      * @return the principal; never {@code null}
      */
     @GetMapping("/me")
-    @AnyRole
+    @AnyRole // Versus @Secured({ "ROLE_ACTUATOR", "ROLE_ADMIN", "ROLE_USER" })
     protected Principal me() {
 	return getPrincipal();
     }
@@ -38,6 +38,7 @@ public class SecurityController extends BaseController {
      * @return a Json serialized {@code BadCredentialsError}; never {@code null}
      */
     @RequestMapping("/authError")
+    // No security, anybody can create an account (see SecurityConfig)
     protected ResponseEntity<Object> authError() {
 	HttpStatus status = HttpStatus.BAD_REQUEST;
 	return new ResponseEntity<>(SecurityError.of(status, "Bad credentials"),
@@ -50,6 +51,7 @@ public class SecurityController extends BaseController {
      * This implementation does nothing.
      */
     @RequestMapping("/logout")
+    // No security, anybody can create an account (see SecurityConfig)
     protected ResponseEntity<Object> logout() {
 	return new ResponseEntity<>(null, HttpStatus.OK);
     }
@@ -62,6 +64,7 @@ public class SecurityController extends BaseController {
      * This implementation does nothing.
      */
     @RequestMapping("/login")
+    // No security, anybody can create an account (see SecurityConfig)
     protected ResponseEntity<Object> login() {
 	if (LOGGER.isDebugEnabled()) {
 	    LOGGER.debug("Some debug log message");

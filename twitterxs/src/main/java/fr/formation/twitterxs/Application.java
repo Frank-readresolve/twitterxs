@@ -1,6 +1,8 @@
 package fr.formation.twitterxs;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -31,6 +33,18 @@ public class Application extends SpringBootServletInitializer {
 	return validatorFactoryBean;
     }
 
+    /**
+     * Dafault {@code ModelMapper} in order to ease mapping from DTO to
+     * entities, and from entities to DTOs.
+     *
+     * @return an instance of {@code ModelMapper}
+     */
+    @Bean
+    public ModelMapper mapper() {
+	// Could be configured changing default configuration
+	return new ModelMapper();
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
 	return new BCryptPasswordEncoder();
@@ -40,11 +54,13 @@ public class Application extends SpringBootServletInitializer {
     @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
     protected static class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private final UserDetailsService userDetailsService;
+	@Autowired
+	private UserDetailsService userDetailsService;
 
-	// @Autowired is optional with one constructor
-	protected SecurityConfig(UserDetailsService userDetailsService) {
-	    this.userDetailsService = userDetailsService;
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth)
+		throws Exception {
+	    auth.userDetailsService(userDetailsService);
 	}
 
 	@Override
@@ -53,7 +69,8 @@ public class Application extends SpringBootServletInitializer {
 	    http.csrf().disable().authorizeRequests()
 		    .antMatchers("/login", "/security/authError",
 			    "/security/login", "/security/logout",
-			    "/users/create")
+			    "/users/create", "/mvc/**")
+		    // "/mvc/**" for JSP examples
 		    .permitAll().and().formLogin().loginPage("/security/login")
 		    .loginProcessingUrl("/login")
 		    .defaultSuccessUrl("/security/me", true)
@@ -63,13 +80,7 @@ public class Application extends SpringBootServletInitializer {
 		    .logoutSuccessUrl("/security/logout").and()
 		    .authorizeRequests().anyRequest().authenticated().and()
 		    .authorizeRequests().antMatchers("/actuator/**")
-		    .hasRole("ACTUATOR");
-	}
-
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth)
-		throws Exception {
-	    auth.userDetailsService(userDetailsService);
+		    .hasRole("ACTUATOR"); // or .hasAuthority("ROLE_ACTUATOR")
 	}
     }
 

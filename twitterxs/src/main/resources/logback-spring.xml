@@ -19,8 +19,9 @@
 	</appender>
 
 	<springProfile name="dev">
-        <root level="debug">
+        <root level="info">
             <appender-ref ref="STDOUT" />
+            <appender-ref ref="SAVE-TO-FILE" />
         </root>
         <logger name="fr.formation.twitterxs.controllers.SecurityController" additivity="false" level="debug">
             <appender-ref ref="STDOUT" />

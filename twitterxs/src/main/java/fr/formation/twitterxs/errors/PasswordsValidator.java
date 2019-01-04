@@ -15,8 +15,8 @@ public class PasswordsValidator
     @Override
     public boolean isValid(UserUpdatePasswordDto value,
 	    ConstraintValidatorContext context) {
-	String previousPassword = value.getPreviousPassword();
-	String password = value.getPassword();
+	String previousPassword = value.getCurrentPassword();
+	String password = value.getNewPassword();
 	if (null == previousPassword || null == password
 		|| previousPassword.isEmpty() || password.isEmpty()) {
 	    return true;

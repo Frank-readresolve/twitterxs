@@ -23,6 +23,6 @@ public interface RegionJpaRepository extends JpaRepository<Region, Long> {
      * @return a view of all the regions
      */
     @Query("select new fr.formation.twitterxs.dto.ValueLabelDto(r.id, r.language || '_' || r.country) "
-	    + "from Region r order by r.country, r.language")
+	    + "from Region r order by r.language, r.country")
     public List<ValueLabelDto> findAllAsDto();
 }

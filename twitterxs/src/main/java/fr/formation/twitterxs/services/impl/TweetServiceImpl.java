@@ -1,5 +1,9 @@
 package fr.formation.twitterxs.services.impl;
 
+import java.time.LocalDateTime;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +14,9 @@ import fr.formation.twitterxs.services.TweetService;
 
 @Service
 public class TweetServiceImpl implements TweetService {
+
+    @Autowired // Inject at field scope
+    private ModelMapper mapper; // Defined in configuration (@Bean)
 
     private final TweetJpaRepository tweetJpaRepo;
 
@@ -28,8 +35,12 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public void post(TweetCreateDto dto) {
-	User author = userJpaRepo.findById(dto.getAuthorId()).get();
-	Tweet tweet = EntityHelper.asTweet(dto, author);
+	Tweet tweet = mapper.map(dto, Tweet.class);
+	LocalDateTime now = LocalDateTime.now();
+	tweet.setPostDate(now);
+	tweet.setEditDate(now);
+	User author = userJpaRepo.getOne(dto.getAuthorId());
+	tweet.setAuthor(author);
 	tweetJpaRepo.save(tweet); // Do not return saved entity
     }
 

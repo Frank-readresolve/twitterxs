@@ -5,22 +5,19 @@ import java.util.*;
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.*;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.*;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.context.request.*;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import fr.formation.twitterxs.errors.*;
-import fr.formation.twitterxs.security.Principal;
+import fr.formation.twitterxs.security.*;
 
 /**
  * A base abstract controller to be extended by concrete controllers.
  * <p>
- * This base controller overrides the
- * {@linkplain #handleMethodArgumentNotValid(MethodArgumentNotValidException, HttpHeaders, HttpStatus, WebRequest)
- * method argument not valid handler} and provides convenient methods such as
- * dealing with the authenticated user.
+ * This base controller overrides error handlers and provides convenient methods
+ * such as dealing with the authenticated user.
  */
 public abstract class BaseController extends ResponseEntityExceptionHandler {
 
@@ -28,22 +25,38 @@ public abstract class BaseController extends ResponseEntityExceptionHandler {
 	// Empty default constructor
     }
 
+    /**
+     * @see SpringSecurityHelper
+     */
     protected static Long getUserId() {
-	return getPrincipal().getUserId();
+	return SpringSecurityHelper.getUserId();
     }
 
+    /**
+     * @see SpringSecurityHelper
+     */
     protected static Principal getPrincipal() {
-	return (Principal) getAuthentication().getPrincipal();
+	return SpringSecurityHelper.getPrincipal();
     }
 
+    /**
+     * @see SpringSecurityHelper
+     */
     protected static Collection<? extends GrantedAuthority> getAuthorities() {
-	return getAuthentication().getAuthorities();
+	return SpringSecurityHelper.getAuthorities();
     }
 
+    /**
+     * @see SpringSecurityHelper
+     */
     protected static Authentication getAuthentication() {
-	return SecurityContextHolder.getContext().getAuthentication();
+	return SpringSecurityHelper.getAuthentication();
     }
 
+    /**
+     * Overriden to customize the response body in case of method argument not
+     * valid.
+     */
     @SuppressWarnings("unused")
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
@@ -72,11 +85,16 @@ public abstract class BaseController extends ResponseEntityExceptionHandler {
 		    errorCode);
 	    errors.add(error); // Merge field and global errors
 	}
+	//
 	ApiErrors<ValidationError> apiErrors = new ApiErrors<>(errors,
 		status.value(), getRequestURI());
 	return new ResponseEntity<>(apiErrors, status);
     }
 
+    /**
+     * Overriden to customize the response body in case of HTTP message not
+     * readable.
+     */
     @SuppressWarnings("unused")
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(

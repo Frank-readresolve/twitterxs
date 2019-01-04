@@ -1,6 +1,6 @@
 package fr.formation.twitterxs.controllers;
 
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import fr.formation.twitterxs.dto.*;
@@ -11,7 +11,8 @@ import fr.formation.twitterxs.services.UserService;
  */
 @RestController
 @RequestMapping("/admin")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+// @PreAuthorize("hasRole('ROLE_ADMIN')")
+@Secured("ROLE_ADMIN")
 public class AdminController extends BaseController {
 
     private final UserService userService;

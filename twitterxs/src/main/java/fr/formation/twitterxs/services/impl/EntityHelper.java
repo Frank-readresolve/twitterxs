@@ -14,21 +14,6 @@ final class EntityHelper {
 	// Utility class
     }
 
-    static User asUser(UserCreateDto dto, Region region) {
-	User entity = new User();
-	entity.setBirthDate(dto.getBirthDate());
-	entity.setEmail(dto.getEmail());
-	entity.setFirstname(dto.getFirstname());
-	entity.setLastname(dto.getLastname());
-	entity.setSubscriptionDate(LocalDateTime.now());
-	entity.setRegion(region);
-	UserSecurity security = new UserSecurity();
-	security.setUsername(dto.getUsername());
-	security.setPassword(dto.getPassword());
-	entity.setSecurity(security);
-	return entity;
-    }
-
     static Tweet asTweet(TweetCreateDto dto, User author) {
 	Tweet entity = new Tweet();
 	entity.setContent(dto.getContent());
