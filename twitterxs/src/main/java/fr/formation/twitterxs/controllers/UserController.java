@@ -72,4 +72,18 @@ public class UserController extends BaseController {
 	dto.setUserId(userId);
 	userService.updatePassword(dto);
     }
+
+    /**
+     * Endpoint to update the authenticated user.
+     *
+     * @param dto
+     *            the inputs related to a password to update
+     */
+    @PostMapping("/update/me")
+    @AnyRole
+    protected void update(@Valid @RequestBody UserUpdateDto dto) {
+	Long userId = getUserId(); // Enforce self-update
+	dto.setId(userId);
+	userService.update(dto);
+    }
 }

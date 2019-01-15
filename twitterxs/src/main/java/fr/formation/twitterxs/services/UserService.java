@@ -85,4 +85,16 @@ public interface UserService {
      *         {@code false} otherwise
      */
     public boolean matchesCurrentPassword(String username, String password);
+
+    /**
+     * Updates an existing user with given DTO.
+     *
+     * @param dto
+     *            the DTO to populate the existing user with
+     */
+    public void update(UserUpdateDto user);
+
+    public UserUpdateDto getById(Long id);
+
+    public boolean updateEmailUnique(String email, Long id);
 }

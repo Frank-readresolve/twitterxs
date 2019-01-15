@@ -7,13 +7,15 @@ import java.time.LocalDateTime;
  */
 public class TweetDto implements Dto {
 
-    private static final long serialVersionUID = -3736260207382890449L;
+    private static final long serialVersionUID = 1166510866456370560L;
 
     private Long tweetId;
 
     private LocalDateTime postDate;
 
     private String content;
+
+    private long likedTimes;
 
     /**
      * Creates a new {@code TweetDto} with default values.
@@ -22,10 +24,12 @@ public class TweetDto implements Dto {
 	// Default no-arg constructor
     }
 
-    public TweetDto(Long tweetId, LocalDateTime postDate, String content) {
+    public TweetDto(Long tweetId, LocalDateTime postDate, String content,
+	    long likedTimes) {
 	setTweetId(tweetId);
 	setPostDate(postDate);
 	setContent(content);
+	setLikedTimes(likedTimes);
     }
 
     public Long getTweetId() {
@@ -52,9 +56,17 @@ public class TweetDto implements Dto {
 	this.content = content;
     }
 
+    public long getLikedTimes() {
+	return likedTimes;
+    }
+
+    public void setLikedTimes(long likedTimes) {
+	this.likedTimes = likedTimes;
+    }
+
     @Override
     public String toString() {
 	return "{tweetId=" + tweetId + ", postDate=" + postDate + ", content="
-		+ content + "}";
+		+ content + ", likedTimes=" + likedTimes + "}";
     }
 }

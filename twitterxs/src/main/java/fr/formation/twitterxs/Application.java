@@ -1,11 +1,17 @@
 package fr.formation.twitterxs;
 
+import java.util.*;
+
 import org.modelmapper.ModelMapper;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cache.*;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
+import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,6 +26,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @SpringBootApplication
+@EnableCaching
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
@@ -48,6 +55,15 @@ public class Application extends SpringBootServletInitializer {
     @Bean
     public PasswordEncoder passwordEncoder() {
 	return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CacheManager createSimpleCacheManager() {
+	SimpleCacheManager simpleCacheManager = new SimpleCacheManager();
+	List<Cache> caches = new ArrayList<>();
+	caches.add(new ConcurrentMapCache("regions"));
+	simpleCacheManager.setCaches(caches);
+	return simpleCacheManager;
     }
 
     @EnableWebSecurity

@@ -30,8 +30,9 @@ public interface TweetJpaRepository extends JpaRepository<Tweet, Long> {
      *            the pageable information
      * @return a page of twwets
      */
-    @Query("select new fr.formation.twitterxs.dto.TweetDto(t.id, t.postDate, t.content) "
-	    + "from Tweet t where t.author.security.username = :username order by t.postDate desc")
+    @Query("select new fr.formation.twitterxs.dto.TweetDto(t.id, t.postDate, t.content, count(lt.tweet.id)) "
+	    + "from Tweet t join t.author a left join LikedTweet lt on t.id = lt.tweet.id "
+	    + "where a.security.username = :username group by t.id order by t.postDate desc")
     public Page<TweetDto> findByUsername(@Param("username") String username,
 	    Pageable pageable);
     // Positioned param version:

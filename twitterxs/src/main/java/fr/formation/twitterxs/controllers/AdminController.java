@@ -4,7 +4,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import fr.formation.twitterxs.dto.*;
-import fr.formation.twitterxs.services.UserService;
+import fr.formation.twitterxs.services.*;
 
 /**
  * A Rest controller dedicated to an admin user.
@@ -17,9 +17,13 @@ public class AdminController extends BaseController {
 
     private final UserService userService;
 
+    private final CacheService cacheService;
+
     // @Autowired is optional with one constructor
-    protected AdminController(UserService userService) {
+    protected AdminController(UserService userService,
+	    CacheService cacheService) {
 	this.userService = userService;
+	this.cacheService = cacheService;
     }
 
     /**
@@ -79,5 +83,15 @@ public class AdminController extends BaseController {
     protected Object template(@PathVariable("className") String className)
 	    throws Exception {
 	return Class.forName(className).newInstance();
+    }
+
+    /**
+     * Endpoint to retrieve the cache stats.
+     *
+     * @return the cache stats
+     */
+    @GetMapping("/cache")
+    protected CacheDto cache() {
+	return cacheService.stats();
     }
 }

@@ -28,7 +28,7 @@ public class UserMvcController {
 
     @SuppressWarnings("unused")
     @GetMapping("/create")
-    public String create(@ModelAttribute("user") UserCreateDto tweet,
+    public String create(@ModelAttribute("user") UserCreateDto user,
 	    Model model) {
 	populateModel(model);
 	return "userCreate";
@@ -43,6 +43,26 @@ public class UserMvcController {
 	}
 	populateModel(model);
 	return "userCreate";
+    }
+
+    @GetMapping("/update/{id}")
+    public String update(@PathVariable("id") Long id, Model model) {
+	UserUpdateDto user = userService.getById(id);
+	model.addAttribute("user", user);
+	populateModel(model);
+	return "userUpdate";
+    }
+
+    @PostMapping("/update/save")
+    public String saveExisting(
+	    @Valid @ModelAttribute("user") UserUpdateDto user,
+	    BindingResult result, Model model) {
+	if (!result.hasErrors()) {
+	    userService.update(user);
+	    model.addAttribute("user", new UserUpdateDto());
+	}
+	populateModel(model);
+	return "userUpdate";
     }
 
     private void populateModel(Model model) {

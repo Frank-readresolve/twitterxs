@@ -10,6 +10,7 @@ import javax.persistence.*;
  * mapping strategy for users.
  */
 @Entity
+@Cacheable
 public class User implements BusinessEntity {
 
     private static final long serialVersionUID = -1890491345830999462L;

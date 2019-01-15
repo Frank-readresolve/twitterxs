@@ -2,6 +2,7 @@ package fr.formation.twitterxs.services.impl;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import fr.formation.twitterxs.domain.entities.Region;
@@ -31,6 +32,7 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
+    @Cacheable("regions")
     public List<ValueLabelDto> findAll() {
 	return jpaRepo.findAllAsDto();
     }

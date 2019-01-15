@@ -36,4 +36,10 @@ public interface UserJpaRepository extends JpaRepository<User, Long> {
 
     @Query("select u.security.password from User u where u.security.username = :username")
     public String findPasswordByUsername(@Param("username") String username);
+
+    // select count(u) from User u where upper(u.email) = upper(:email) and u.id
+    // <> :id
+    // long count = execute
+    // return count > 0
+    public boolean existsByEmailIgnoreCaseAndIdNot(String email, Long id);
 }

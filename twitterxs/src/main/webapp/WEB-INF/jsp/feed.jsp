@@ -14,7 +14,7 @@
 		<c:forEach items="${tweets.items}" var="tweet">
 			<div>
 				<h2>
-					<spring:message code="feed.tweet.id" />: ${tweet.tweetId}, <spring:message code="feed.tweet.postDate" />: ${tweet.postDate}
+					<spring:message code="feed.tweet.id" />: ${tweet.tweetId}, <spring:message code="feed.tweet.postDate" />: ${tweet.postDate}, <spring:message code="feed.tweet.likedTimes" />: ${tweet.likedTimes}
 				</h2>
 				<p>${tweet.content}</p>
 			</div>

@@ -108,4 +108,24 @@ public class UserServiceImpl implements UserService {
 	// Current password is encoded
 	return encoder.matches(password, current);
     }
+
+    @Override
+    public void update(UserUpdateDto dto) {
+	User user = userJpaRepo.findById(dto.getId()).get();
+	mapper.map(dto, user); // user.setEmail(dto.getEmail());
+	Region region = regionJpaRepo.getOne(dto.getRegionId());
+	user.setRegion(region);
+	userJpaRepo.save(user);
+    }
+
+    @Override
+    public UserUpdateDto getById(Long id) {
+	User user = userJpaRepo.findById(id).get();
+	return mapper.map(user, UserUpdateDto.class);
+    }
+
+    @Override
+    public boolean updateEmailUnique(String email, Long id) {
+	return !userJpaRepo.existsByEmailIgnoreCaseAndIdNot(email, id);
+    }
 }

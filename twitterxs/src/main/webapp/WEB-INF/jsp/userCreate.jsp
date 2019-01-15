@@ -12,8 +12,6 @@
 		<h1>
 			<spring:message code="user.create.title" />
 		</h1>
-		
-		
 		<form:form action="save" method="POST" modelAttribute="user">
 			<div>
 				<form:label path="firstname"><spring:message code="user.create.firstname" /></form:label>
