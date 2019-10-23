@@ -7,12 +7,12 @@
 	</appender>
 	
 	<appender name="SAVE-TO-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-	    <file>D:\Frank\Documents\READRESOLVE\logs\twitterxs.log</file>
+	    <file>C:\Frank\Documents\READRESOLVE\logs\twitterxs.log</file>
 	    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 	        <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n</pattern>
 	    </encoder>
 	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-	        <fileNamePattern>D:\Frank\Documents\READRESOLVE\logs\archived\log_%d{dd-MM-yyyy}.log</fileNamePattern>
+	        <fileNamePattern>C:\Frank\Documents\READRESOLVE\logs\archived\log_%d{dd-MM-yyyy}.log</fileNamePattern>
 	        <maxHistory>10</maxHistory>
 	        <totalSizeCap>1MB</totalSizeCap>
 	    </rollingPolicy>
