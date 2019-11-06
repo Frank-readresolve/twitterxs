@@ -7,6 +7,8 @@ import javax.validation.Valid;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import fr.formation.twitterxs.dto.*;
 import fr.formation.twitterxs.security.AdminOrUser;
 import fr.formation.twitterxs.services.RegionService;
