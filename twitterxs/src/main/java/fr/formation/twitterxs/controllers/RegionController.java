@@ -19,12 +19,8 @@ import fr.formation.twitterxs.services.RegionService;
 @AdminOrUser
 public class RegionController extends BaseController {
 
-    private final RegionService service;
-
-    // @Autowired // is optional with one constructor
-    protected RegionController(RegionService service) {
-	this.service = service;
-    }
+	@Autowired
+    private RegionService service;
 
     /**
      * Endpoint returning all the regions as instances of {@code ValueLabelDto}.
