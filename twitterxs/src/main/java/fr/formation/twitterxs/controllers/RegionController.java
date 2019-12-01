@@ -23,6 +23,10 @@ public class RegionController extends BaseController {
 
 	@Autowired
     private RegionService service;
+	
+	public RegionController() {
+		// Empty constructor
+	}
 
     /**
      * Endpoint returning all the regions as instances of {@code ValueLabelDto}.
