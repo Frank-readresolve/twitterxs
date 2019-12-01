@@ -24,7 +24,8 @@ public class RegionController extends BaseController {
 	@Autowired
     private RegionService service;
 	
-	RegionController() {
+	RegionController()
+	{
 		// Empty constructor
 	}
 
