@@ -22,7 +22,7 @@ import fr.formation.twitterxs.services.RegionService;
 public class RegionController extends BaseController {
 
     @Autowired
-    private RegionService service;
+      private RegionService service;
 
     /**
      * Endpoint returning all the regions as instances of {@code ValueLabelDto}.
